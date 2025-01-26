@@ -1,73 +1,40 @@
-"""PyBank Homework Starter File."""
-# Dependencies
-import csv
-import os
+PyBank Instructions
 
-# Files to load and output (update with correct file paths)
-file_to_load = os.path.join("..", "Resources", "budget_data.csv")  # Input file path
-file_to_output = os.path.join("analysis", "budget_analysis.txt")  # Output file path
+In this Challenge, you are tasked with creating a Python script to analyze the financial records of your company. You will be given a financial dataset called budget_data.csv. The dataset is composed of two columns: "Date" and "Profit/Losses".
+Your task is to create a Python script that analyzes the records to calculate each of the following values:
+The total number of months included in the dataset
+The net total amount of "Profit/Losses" over the entire period
+The changes in "Profit/Losses" over the entire period, and then the average of those changes
+The greatest increase in profits (date and amount) over the entire period
+The greatest decrease in profits (date and amount) over the entire period
+Your analysis should align with the following results:
+Financial Analysis
+----------------------------
+Total Months: 86
+Total: $22564198
+Average Change: $-8311.11
+Greatest Increase in Profits: Aug-16 ($1862002)
+Greatest Decrease in Profits: Feb-14 ($-1825558)
 
-# Define variables to track the financial data
-total_months = 0
-total_net = 0
+In addition, your final script should both print the analysis to the terminal and export a text file with the results.
+PyPoll Instructions
 
-# Add more variables to track other necessary financial data
-monthly_changes = []
-profit_changes_list = []
-greatest_increase = ["", 0]
-greatest_decrease = ["", float("inf")]
+In this Challenge, you are tasked with helping a small, rural town modernize its vote-counting process.
+You will be given a set of poll data called election_data.csv. The dataset is composed of three columns: "Voter ID", "County", and "Candidate". Your task is to create a Python script that analyzes the votes and calculates each of the following values:
+The total number of votes cast
+A complete list of candidates who received votes
+The percentage of votes each candidate won
+The total number of votes each candidate won
+The winner of the election based on popular vote
+Your analysis should align with the following results:
+Election Results
+-------------------------
+Total Votes: 369711
+-------------------------
+Charles Casper Stockham: 23.049% (85213)
+Diana DeGette: 73.812% (272892)
+Raymon Anthony Doane: 3.139% (11606)
+-------------------------
+Winner: Diana DeGette
+-------------------------
 
-# Open and read the csv
-with open(file_to_load) as financial_data:
-    reader = csv.reader(financial_data, delimiter=",")
-    
-    # Skip the header row
-    header = next(reader)
-    
-    # Extract first row to avoid appending to profit_changes_list
-    first_row = next(reader)
-    total_months += 1
-    total_net += int(first_row[1])
-    previous_net = int(first_row[1])
-    
-    # Process each row of data
-    for row in reader:
-        total_months += 1
-        total_net += int(row[1])
-        
-        # Calculate net change
-        net_change = int(row[1]) - previous_net
-        previous_net = int(row[1])
-        profit_changes_list.append(net_change)
-        monthly_changes.append(row[0])
-        
-        # Check for greatest increase
-        if net_change > greatest_increase[1]:
-            greatest_increase = [row[0], net_change]
-        
-        # Check for greatest decrease
-        if net_change < greatest_decrease[1]:
-            greatest_decrease = [row[0], net_change]
-
-# Calculate the average net change across the months
-average_net_change = sum(profit_changes_list) / len(profit_changes_list)
-
-# Generate the output summary
-output = (
-    "Financial Analysis\n"
-    "----------------------------\n"
-    f"Total Months: {total_months}\n"
-    f"Total: ${total_net}\n"
-    f"Average Change: ${average_net_change:.2f}\n"
-    f"Greatest Increase in Profits: {greatest_increase[0]} (${greatest_increase[1]})\n"
-    f"Greatest Decrease in Profits: {greatest_decrease[0]} (${greatest_decrease[1]})\n"
-)
-
-# Print the output
-print(output)
-
-# Write the results to a text file
-os.makedirs(os.path.dirname(file_to_output), exist_ok=True)
-with open(file_to_output, "w") as txt_file:
-    txt_file.write(output)
-# python-challenge
